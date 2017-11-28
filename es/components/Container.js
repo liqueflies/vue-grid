@@ -1,6 +1,6 @@
 import pick from 'lodash.pick';
 import debounce from 'lodash.debounce';
-import { containerProps, calcBreakpoint, calcSpan } from '../utils';
+import { getDefaultContainerProps, getBreakpointValue } from '../utils';
 
 export default {
   name: 'container',
@@ -21,7 +21,7 @@ export default {
       var vw = window.innerWidth;
       var breakpoints = this.$options.config.breakpoints;
 
-      var bp = calcBreakpoint(vw, breakpoints);
+      var bp = getBreakpointValue(vw, breakpoints);
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp;
@@ -33,7 +33,7 @@ export default {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return calcSpan(this.breakpoint, this.breakpoints, breakpoints);
+      return getBreakpointValue(this.breakpoint, this.breakpoints, breakpoints);
     },
     breakpoints: function breakpoints() {
       var _$options$config = this.$options.config,
@@ -41,7 +41,7 @@ export default {
           columns = _$options$config.columns;
 
       var declaredProps = pick(this.$attrs, Object.keys(breakpoints));
-      var defaultProps = containerProps(breakpoints, columns);
+      var defaultProps = getDefaultContainerProps(breakpoints, columns);
       return Object.assign.apply(Object, [{}].concat(defaultProps, [declaredProps]));
     }
   },

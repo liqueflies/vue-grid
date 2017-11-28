@@ -33,7 +33,7 @@ exports.default = {
       var vw = window.innerWidth;
       var breakpoints = this.$options.config.breakpoints;
 
-      var bp = (0, _utils.calcBreakpoint)(vw, breakpoints);
+      var bp = (0, _utils.getBreakpointValue)(vw, breakpoints);
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp;
@@ -45,7 +45,7 @@ exports.default = {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return (0, _utils.calcSpan)(this.breakpoint, this.breakpoints, breakpoints);
+      return (0, _utils.getBreakpointValue)(this.breakpoint, this.breakpoints, breakpoints);
     },
     breakpoints: function breakpoints() {
       var _$options$config = this.$options.config,
@@ -53,7 +53,7 @@ exports.default = {
           columns = _$options$config.columns;
 
       var declaredProps = (0, _lodash2.default)(this.$attrs, Object.keys(breakpoints));
-      var defaultProps = (0, _utils.containerProps)(breakpoints, columns);
+      var defaultProps = (0, _utils.getDefaultContainerProps)(breakpoints, columns);
       return Object.assign.apply(Object, [{}].concat(defaultProps, [declaredProps]));
     }
   },

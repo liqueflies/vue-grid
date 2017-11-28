@@ -1,6 +1,6 @@
 import { toArray } from './toArray'
 
-export const calcBreakpoint = (viewport, breakpoints) => {
+export const getCurrentBreakpoint = (viewport, breakpoints) => {
   const bpArr = toArray(breakpoints)
 
   const result = bpArr

@@ -1,6 +1,6 @@
 import { toArray } from './toArray'
 
-export const containerProps = (breakpoints) => {
+export const getDefaultContainerProps = (breakpoints) => {
   return toArray(breakpoints)
     .map((bp) => ({
         [bp.name]: 0

@@ -37,7 +37,7 @@ exports.default = {
       var vw = window.innerWidth;
       var breakpoints = this.$options.config.breakpoints;
 
-      var bp = (0, _utils.calcBreakpoint)(vw, breakpoints);
+      var bp = (0, _utils.getCurrentBreakpoint)(vw, breakpoints);
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp;
@@ -49,27 +49,30 @@ exports.default = {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return (0, _utils.calcSpan)(this.breakpoint, this.breakpoints, breakpoints);
+      return (0, _utils.getBreakpointValue)(this.breakpoint, breakpoints, this.reducedAttrs);
     },
     shift: function shift() {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return (0, _utils.calcSpan)(this.breakpoint, this.breakpoints, breakpoints, true);
+      return (0, _utils.getBreakpointValue)(this.breakpoint, breakpoints, this.reducedAttrs, true);
     },
-    breakpoints: function breakpoints() {
+    reducedAttrs: function reducedAttrs() {
       var _$options$config = this.$options.config,
           breakpoints = _$options$config.breakpoints,
           columns = _$options$config.columns;
+      // xl, md, sm...
 
-      var bpKeys = Object.keys(breakpoints);
-      var shiftedKeys = bpKeys.map(function (k) {
-        return k + 'Shift';
+      var bpNames = Object.keys(breakpoints);
+      // xlShift, mdShift, smShift...
+      var bpShiftNames = bpNames.map(function (bpName) {
+        return bpName + 'Shift';
       });
-      var keysToKeep = [bpKeys, shiftedKeys];
-
-      var declaredProps = _lodash2.default.apply(undefined, [this.$attrs].concat(keysToKeep));
-      var defaultProps = (0, _utils.columnProps)(breakpoints, columns);
+      // remove unecessary attrs
+      var declaredProps = (0, _lodash2.default)(this.$attrs, [].concat(bpNames, bpShiftNames));
+      // add default props
+      var defaultProps = (0, _utils.getDefaultColumnProps)(breakpoints, columns);
+      // return default props overrated by declared dynamic attrs
       return Object.assign.apply(Object, [{}].concat(defaultProps, [declaredProps]));
     },
     column: function column() {

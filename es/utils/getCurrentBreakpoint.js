@@ -1,6 +1,6 @@
 import { toArray } from './toArray';
 
-export var calcBreakpoint = function calcBreakpoint(viewport, breakpoints) {
+export var getCurrentBreakpoint = function getCurrentBreakpoint(viewport, breakpoints) {
   var bpArr = toArray(breakpoints);
 
   var result = bpArr.reduce(function (previous, current) {

@@ -1,6 +1,6 @@
 import pick from 'lodash.pick'
 import debounce from 'lodash.debounce'
-import { columnProps, calcBreakpoint, calcSpan } from '../utils'
+import { getDefaultColumnProps, getCurrentBreakpoint, getBreakpointValue } from '../utils'
 
 export default {
   name: 'column',
@@ -24,7 +24,7 @@ export default {
     check: function () {
       const vw = window.innerWidth
       const { breakpoints } = this.$options.config
-      const bp = calcBreakpoint(vw, breakpoints)
+      const bp = getCurrentBreakpoint(vw, breakpoints)
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp
@@ -36,22 +36,25 @@ export default {
       if (!this.breakpoint)
         return
       const { breakpoints } = this.$options.config
-      return calcSpan(this.breakpoint, this.breakpoints, breakpoints)
+      return getBreakpointValue(this.breakpoint, breakpoints, this.reducedAttrs)
     },
     shift: function () {
       if (!this.breakpoint)
         return
       const { breakpoints } = this.$options.config
-      return calcSpan(this.breakpoint, this.breakpoints, breakpoints, true)
+      return getBreakpointValue(this.breakpoint, breakpoints, this.reducedAttrs, true)
     },
-    breakpoints: function () {
+    reducedAttrs: function () {
       const { breakpoints, columns } = this.$options.config
-      const bpKeys = Object.keys(breakpoints)
-      const shiftedKeys = bpKeys.map(k => k + 'Shift')
-      const keysToKeep = [bpKeys, shiftedKeys]
-      
-      const declaredProps = pick(this.$attrs, ...keysToKeep)
-      const defaultProps = columnProps(breakpoints, columns)
+      // xl, md, sm...
+      const bpNames = Object.keys(breakpoints)
+      // xlShift, mdShift, smShift...
+      const bpShiftNames = bpNames.map(bpName => bpName + 'Shift')
+      // remove unecessary attrs
+      const declaredProps = pick(this.$attrs, [...bpNames, ...bpShiftNames])
+      // add default props
+      const defaultProps = getDefaultColumnProps(breakpoints, columns)
+      // return default props overrated by declared dynamic attrs
       return Object.assign({}, ...defaultProps, declaredProps)
     },
     column: function () {

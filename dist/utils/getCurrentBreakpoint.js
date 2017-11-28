@@ -1,11 +1,11 @@
 'use strict';
 
 exports.__esModule = true;
-exports.calcBreakpoint = undefined;
+exports.getCurrentBreakpoint = undefined;
 
 var _toArray = require('./toArray');
 
-var calcBreakpoint = exports.calcBreakpoint = function calcBreakpoint(viewport, breakpoints) {
+var getCurrentBreakpoint = exports.getCurrentBreakpoint = function getCurrentBreakpoint(viewport, breakpoints) {
   var bpArr = (0, _toArray.toArray)(breakpoints);
 
   var result = bpArr.reduce(function (previous, current) {

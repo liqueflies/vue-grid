@@ -1,11 +1,11 @@
 'use strict';
 
 exports.__esModule = true;
-exports.containerProps = undefined;
+exports.getDefaultContainerProps = undefined;
 
 var _toArray = require('./toArray');
 
-var containerProps = exports.containerProps = function containerProps(breakpoints) {
+var getDefaultContainerProps = exports.getDefaultContainerProps = function getDefaultContainerProps(breakpoints) {
   return (0, _toArray.toArray)(breakpoints).map(function (bp) {
     var _ref;
 

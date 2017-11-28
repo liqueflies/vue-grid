@@ -1,4 +1,4 @@
-export { columnProps as columnProps } from './columnProps'
-export { containerProps as containerProps } from './containerProps'
-export { calcBreakpoint as calcBreakpoint } from './calcBreakpoint'
-export { calcSpan as calcSpan } from './calcSpan'
+export { getDefaultColumnProps as getDefaultColumnProps } from './getDefaultColumnProps'
+export { getDefaultContainerProps as getDefaultContainerProps } from './getDefaultContainerProps'
+export { getCurrentBreakpoint as getCurrentBreakpoint } from './getCurrentBreakpoint'
+export { getBreakpointValue as getBreakpointValue } from './getBreakpointValue'

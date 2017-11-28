@@ -1,6 +1,6 @@
 import pick from 'lodash.pick';
 import debounce from 'lodash.debounce';
-import { columnProps, calcBreakpoint, calcSpan } from '../utils';
+import { getDefaultColumnProps, getCurrentBreakpoint, getBreakpointValue } from '../utils';
 
 export default {
   name: 'column',
@@ -25,7 +25,7 @@ export default {
       var vw = window.innerWidth;
       var breakpoints = this.$options.config.breakpoints;
 
-      var bp = calcBreakpoint(vw, breakpoints);
+      var bp = getCurrentBreakpoint(vw, breakpoints);
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp;
@@ -37,27 +37,30 @@ export default {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return calcSpan(this.breakpoint, this.breakpoints, breakpoints);
+      return getBreakpointValue(this.breakpoint, breakpoints, this.reducedAttrs);
     },
     shift: function shift() {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return calcSpan(this.breakpoint, this.breakpoints, breakpoints, true);
+      return getBreakpointValue(this.breakpoint, breakpoints, this.reducedAttrs, true);
     },
-    breakpoints: function breakpoints() {
+    reducedAttrs: function reducedAttrs() {
       var _$options$config = this.$options.config,
           breakpoints = _$options$config.breakpoints,
           columns = _$options$config.columns;
+      // xl, md, sm...
 
-      var bpKeys = Object.keys(breakpoints);
-      var shiftedKeys = bpKeys.map(function (k) {
-        return k + 'Shift';
+      var bpNames = Object.keys(breakpoints);
+      // xlShift, mdShift, smShift...
+      var bpShiftNames = bpNames.map(function (bpName) {
+        return bpName + 'Shift';
       });
-      var keysToKeep = [bpKeys, shiftedKeys];
-
-      var declaredProps = pick.apply(undefined, [this.$attrs].concat(keysToKeep));
-      var defaultProps = columnProps(breakpoints, columns);
+      // remove unecessary attrs
+      var declaredProps = pick(this.$attrs, [].concat(bpNames, bpShiftNames));
+      // add default props
+      var defaultProps = getDefaultColumnProps(breakpoints, columns);
+      // return default props overrated by declared dynamic attrs
       return Object.assign.apply(Object, [{}].concat(defaultProps, [declaredProps]));
     },
     column: function column() {

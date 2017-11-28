@@ -921,19 +921,19 @@ var toArray = function toArray(breakpoints) {
   return bpArray;
 };
 
-var columnProps = function columnProps(breakpoints, columns) {
+var getDefaultColumnProps = function getDefaultColumnProps(breakpoints, columns) {
   var _ref3;
 
   var props = toArray(breakpoints).map(function (bp, index) {
     var _ref, _ref2;
 
-    return [(_ref = {}, _ref[bp.name] = index === 0 ? columns : null, _ref), (_ref2 = {}, _ref2[bp.name + 'Shift'] = index === 0 ? 0 : null, _ref2)];
+    return [(_ref = {}, _ref[bp.name] = !index ? columns : null, _ref), (_ref2 = {}, _ref2[bp.name + 'Shift'] = !index ? 0 : null, _ref2)];
   });
-
+  // flatten array
   return (_ref3 = []).concat.apply(_ref3, props);
 };
 
-var containerProps = function containerProps(breakpoints) {
+var getDefaultContainerProps = function getDefaultContainerProps(breakpoints) {
   return toArray(breakpoints).map(function (bp) {
     var _ref;
 
@@ -941,7 +941,7 @@ var containerProps = function containerProps(breakpoints) {
   });
 };
 
-var calcBreakpoint = function calcBreakpoint(viewport, breakpoints) {
+var getCurrentBreakpoint = function getCurrentBreakpoint(viewport, breakpoints) {
   var bpArr = toArray(breakpoints);
 
   var result = bpArr.reduce(function (previous, current) {
@@ -951,16 +951,20 @@ var calcBreakpoint = function calcBreakpoint(viewport, breakpoints) {
   return result.name;
 };
 
-var calcSpan = function calcSpan(currentBreakpoint, breakpoints, breakpointsMeasures) {
+var getBreakpointValue = function getBreakpointValue(currentBreakpoint, breakpoints, userProps) {
   var shift = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
 
-  var bp = toArray(breakpoints).filter(function (bp) {
+  var bp = toArray(userProps)
+  // filter shifted breakpoints if present, or keep them only
+  .filter(function (bp) {
     return bp.name.includes('Shift') === shift;
   }).reduce(function (previous, current) {
+    // prevent `shift` on name
     var pureName = current.name.replace('Shift', '');
-    var isSmallerThanCurrentBreakpoint = breakpointsMeasures[pureName] <= breakpointsMeasures[currentBreakpoint];
+    var isSmallerThanCurrentBreakpoint = breakpoints[current.name] <= breakpoints[currentBreakpoint];
     return !!current.value && isSmallerThanCurrentBreakpoint ? current : previous;
   });
+
   return bp.value;
 };
 
@@ -983,7 +987,7 @@ var Container = {
       var vw = window.innerWidth;
       var breakpoints = this.$options.config.breakpoints;
 
-      var bp = calcBreakpoint(vw, breakpoints);
+      var bp = getBreakpointValue(vw, breakpoints);
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp;
@@ -995,7 +999,7 @@ var Container = {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return calcSpan(this.breakpoint, this.breakpoints, breakpoints);
+      return getBreakpointValue(this.breakpoint, this.breakpoints, breakpoints);
     },
     breakpoints: function breakpoints() {
       var _$options$config = this.$options.config,
@@ -1003,7 +1007,7 @@ var Container = {
           columns = _$options$config.columns;
 
       var declaredProps = lodash_pick(this.$attrs, Object.keys(breakpoints));
-      var defaultProps = containerProps(breakpoints, columns);
+      var defaultProps = getDefaultContainerProps(breakpoints, columns);
       return Object.assign.apply(Object, [{}].concat(defaultProps, [declaredProps]));
     }
   },
@@ -1083,7 +1087,7 @@ var Column = {
       var vw = window.innerWidth;
       var breakpoints = this.$options.config.breakpoints;
 
-      var bp = calcBreakpoint(vw, breakpoints);
+      var bp = getCurrentBreakpoint(vw, breakpoints);
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp;
@@ -1095,27 +1099,30 @@ var Column = {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return calcSpan(this.breakpoint, this.breakpoints, breakpoints);
+      return getBreakpointValue(this.breakpoint, breakpoints, this.reducedAttrs);
     },
     shift: function shift() {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return calcSpan(this.breakpoint, this.breakpoints, breakpoints, true);
+      return getBreakpointValue(this.breakpoint, breakpoints, this.reducedAttrs, true);
     },
-    breakpoints: function breakpoints() {
+    reducedAttrs: function reducedAttrs() {
       var _$options$config = this.$options.config,
           breakpoints = _$options$config.breakpoints,
           columns = _$options$config.columns;
+      // xl, md, sm...
 
-      var bpKeys = Object.keys(breakpoints);
-      var shiftedKeys = bpKeys.map(function (k) {
-        return k + 'Shift';
+      var bpNames = Object.keys(breakpoints);
+      // xlShift, mdShift, smShift...
+      var bpShiftNames = bpNames.map(function (bpName) {
+        return bpName + 'Shift';
       });
-      var keysToKeep = [bpKeys, shiftedKeys];
-
-      var declaredProps = lodash_pick.apply(undefined, [this.$attrs].concat(keysToKeep));
-      var defaultProps = columnProps(breakpoints, columns);
+      // remove unecessary attrs
+      var declaredProps = lodash_pick(this.$attrs, [].concat(bpNames, bpShiftNames));
+      // add default props
+      var defaultProps = getDefaultColumnProps(breakpoints, columns);
+      // return default props overrated by declared dynamic attrs
       return Object.assign.apply(Object, [{}].concat(defaultProps, [declaredProps]));
     },
     column: function column() {

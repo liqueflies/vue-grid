@@ -1,6 +1,6 @@
 import { toArray } from './toArray';
 
-export var containerProps = function containerProps(breakpoints) {
+export var getDefaultContainerProps = function getDefaultContainerProps(breakpoints) {
   return toArray(breakpoints).map(function (bp) {
     var _ref;
 

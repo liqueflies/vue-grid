@@ -2,38 +2,38 @@
 
 exports.__esModule = true;
 
-var _columnProps = require('./columnProps');
+var _getDefaultColumnProps = require('./getDefaultColumnProps');
 
-Object.defineProperty(exports, 'columnProps', {
+Object.defineProperty(exports, 'getDefaultColumnProps', {
   enumerable: true,
   get: function get() {
-    return _columnProps.columnProps;
+    return _getDefaultColumnProps.getDefaultColumnProps;
   }
 });
 
-var _containerProps = require('./containerProps');
+var _getDefaultContainerProps = require('./getDefaultContainerProps');
 
-Object.defineProperty(exports, 'containerProps', {
+Object.defineProperty(exports, 'getDefaultContainerProps', {
   enumerable: true,
   get: function get() {
-    return _containerProps.containerProps;
+    return _getDefaultContainerProps.getDefaultContainerProps;
   }
 });
 
-var _calcBreakpoint = require('./calcBreakpoint');
+var _getCurrentBreakpoint = require('./getCurrentBreakpoint');
 
-Object.defineProperty(exports, 'calcBreakpoint', {
+Object.defineProperty(exports, 'getCurrentBreakpoint', {
   enumerable: true,
   get: function get() {
-    return _calcBreakpoint.calcBreakpoint;
+    return _getCurrentBreakpoint.getCurrentBreakpoint;
   }
 });
 
-var _calcSpan = require('./calcSpan');
+var _getBreakpointValue = require('./getBreakpointValue');
 
-Object.defineProperty(exports, 'calcSpan', {
+Object.defineProperty(exports, 'getBreakpointValue', {
   enumerable: true,
   get: function get() {
-    return _calcSpan.calcSpan;
+    return _getBreakpointValue.getBreakpointValue;
   }
 });
