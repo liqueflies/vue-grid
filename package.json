@@ -1,0 +1,62 @@
+{
+  "name": "@liqueflies/vue-grid",
+  "version": "0.0.1",
+  "description": "Vue.js grid components",
+  "author": {
+    "name": "Lorenzo Girardi",
+    "url": "https://github.com/liqueflies"
+  },
+  "homepage": "https://github.com/liqueflies/vue-grid",
+  "main": "dist/index.js",
+  "unpkg": "umd/vue-grid.min.js",
+  "jsnext:main": "es/index.js",
+  "module": "es/index.js",
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "build": "npm run lint && npm run build:cjs && npm run build:es && npm run build:umd",
+    "build:cjs": "rimraf dist && cross-env BABEL_ENV=cjs babel ./src -d dist --ignore umd.js",
+    "build:es": "rimraf es && cross-env BABEL_ENV=es babel ./src -d es --ignore umd.js",
+    "build:umd": "rimraf umd && cross-env BABEL_ENV=rollup rollup -c rollup.config.js",
+    "example": "node example/server.js",
+    "lint": "eslint src/*.js utils/*.js"
+  },
+  "keywords": [
+    "vue",
+    "grid",
+    "bootstrap",
+    "vue.js",
+    "responsive",
+    "inline styles",
+    "css"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.0",
+    "babel-plugin-add-module-exports": "0.2.1",
+    "babel-plugin-external-helpers": "6.22.0",
+    "babel-preset-env": "1.6.1",
+    "cross-env": "5.1.1",
+    "eslint": "4.12.0",
+    "eslint-plugin-html": "4.0.1",
+    "eslint-plugin-vue-libs": "1.2.1",
+    "express": "4.16.2",
+    "node-watch": "0.5.5",
+    "rimraf": "2.6.2",
+    "rollup": "0.52.0",
+    "rollup-plugin-babel": "3.0.2",
+    "rollup-plugin-commonjs": "8.2.6",
+    "rollup-plugin-node-resolve": "3.0.0",
+    "rollup-plugin-replace": "2.0.0",
+    "rollup-plugin-uglify": "2.0.1",
+    "vue": "2.5.8"
+  },
+  "peerDependencies": {
+    "vue": "2.5.8"
+  },
+  "dependencies": {
+    "lodash.debounce": "4.0.8",
+    "lodash.pick": "4.4.0",
+    "vue-types": "1.0.2"
+  }
+}

@@ -1,0 +1,8 @@
+.DS_Store
+*.log
+test
+examples
+.babelrc
+.editorconfig
+.eslintrc.js
+rollup.*

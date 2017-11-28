@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Basic Example</title>
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      .dumb {
+        display: block;
+        width: 100%;
+        height: 80px;
+        background-color: palevioletred;
+        border-radius: 0.6em;
+        margin-bottom: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Basic Example</h1>
+    <div id="container"></div>
+    <script src="https://unpkg.com/vue@2.5.8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.24/browser.min.js"></script>
+    <script src="/vue-grid.js"></script>
+    <script type="text/babel">
+
+    Vue.component('dumb', {
+      template: '<div class="dumb"></div>'
+    })
+
+    new Vue({
+      el: '#container',
+      template: `<div>
+      <container>
+        <row resetStyle tagName="ul">
+          <column tagName="li" :sm="6" :md="4">
+            <dumb />
+          </column>
+          <column :sm="6" :md="4">
+            <dumb />
+          </column>
+          <column :sm="6" :md="4">
+            <dumb />
+          </column>
+        </row>
+      </container>
+      <container>
+        <row>
+          <column :sm="6" :md="4">
+            <dumb />
+          </column>
+          <column :sm="6" :md="4" :mdShift="4">
+            <hidden from="md" until="lg">
+              <dumb />
+            </hidden>
+          </column>
+        </row>
+      </container>
+      <container xl="1200">
+        <row>
+          <column>
+            <dumb />
+          </column>
+        </row>
+      </container>
+      </div>`
+    });
+    </script>
+  </body>
+</html>

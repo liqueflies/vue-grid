@@ -1,0 +1,31 @@
+{
+  "presets": [
+    ["env", {
+      "loose": true,
+      "modules": false
+    }]
+  ],
+  "env": {
+    "cjs": {
+      "presets": [
+        ["env", {
+          "loose": true,
+          "modules": "commonjs"
+        }]
+      ],
+      "plugins": ["add-module-exports"]
+    },
+    "rollup": {
+      "plugins": ["external-helpers"]
+    },
+    "test": {
+      "presets": [
+        ["env", {
+          "loose": true,
+          "modules": "commonjs",
+          "targets": { "node": "current" }
+        }]
+      ]
+    }
+  }
+}
