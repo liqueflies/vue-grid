@@ -10,7 +10,7 @@ export var getBreakpointValue = function getBreakpointValue(currentBreakpoint, b
   }).reduce(function (previous, current) {
     // prevent `shift` on name
     var pureName = current.name.replace('Shift', '');
-    var isSmallerThanCurrentBreakpoint = breakpoints[current.name] <= breakpoints[currentBreakpoint];
+    var isSmallerThanCurrentBreakpoint = breakpoints[pureName] <= breakpoints[currentBreakpoint];
     return !!current.value && isSmallerThanCurrentBreakpoint ? current : previous;
   });
 

@@ -1,5 +1,5 @@
 
-/*! @liqueflies/vue-grid - v0.0.2
+/*! @liqueflies/vue-grid - v0.0.3
  * https://github.com/liqueflies/vue-grid
  * Copyright (c) 2017 - [object Object];
  * Licensed MIT
@@ -961,7 +961,7 @@ var getBreakpointValue = function getBreakpointValue(currentBreakpoint, breakpoi
   }).reduce(function (previous, current) {
     // prevent `shift` on name
     var pureName = current.name.replace('Shift', '');
-    var isSmallerThanCurrentBreakpoint = breakpoints[current.name] <= breakpoints[currentBreakpoint];
+    var isSmallerThanCurrentBreakpoint = breakpoints[pureName] <= breakpoints[currentBreakpoint];
     return !!current.value && isSmallerThanCurrentBreakpoint ? current : previous;
   });
 

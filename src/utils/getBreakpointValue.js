@@ -7,7 +7,7 @@ export const getBreakpointValue = (currentBreakpoint, breakpoints, userProps, sh
   .reduce((previous, current) => {
       // prevent `shift` on name
       const pureName = current.name.replace('Shift', '')
-      const isSmallerThanCurrentBreakpoint = breakpoints[current.name] <= breakpoints[currentBreakpoint]
+      const isSmallerThanCurrentBreakpoint = breakpoints[pureName] <= breakpoints[currentBreakpoint]
       return !!current.value && isSmallerThanCurrentBreakpoint ? current : previous
     })
 
