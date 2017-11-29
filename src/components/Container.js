@@ -1,6 +1,6 @@
 import pick from 'lodash.pick'
 import debounce from 'lodash.debounce'
-import { getDefaultContainerProps, getBreakpointValue } from '../utils'
+import { getDefaultContainerProps, getCurrentBreakpoint, getBreakpointValue } from '../utils'
 
 export default {
   name: 'container',
@@ -20,7 +20,7 @@ export default {
     check: function () {
       const vw = window.innerWidth
       const { breakpoints } = this.$options.config
-      const bp = getBreakpointValue(vw, breakpoints)
+      const bp = getCurrentBreakpoint(vw, breakpoints)
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp
@@ -32,14 +32,19 @@ export default {
       if (!this.breakpoint)
         return
       const { breakpoints } = this.$options.config
-      return getBreakpointValue(this.breakpoint, this.breakpoints, breakpoints)
+      return getBreakpointValue(this.breakpoint, breakpoints, this.reducedAttrs)
     },
-    breakpoints: function () {
-      const { breakpoints, columns } = this.$options.config
-      const declaredProps = pick(this.$attrs, Object.keys(breakpoints))
-      const defaultProps = getDefaultContainerProps(breakpoints, columns)
+    reducedAttrs: function () {
+      const { breakpoints } = this.$options.config
+      // xl, md, sm...
+      const bpNames = Object.keys(breakpoints)
+      // remove unecessary attrs
+      const declaredProps = pick(this.$attrs, bpNames)
+      // add default props
+      const defaultProps = getDefaultContainerProps(breakpoints)
+      // return default props overrated by declared dynamic attrs
       return Object.assign({}, ...defaultProps, declaredProps)
-    }
+    },
   },
   render: function (createElement) {
     return createElement(

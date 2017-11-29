@@ -987,7 +987,7 @@ var Container = {
       var vw = window.innerWidth;
       var breakpoints = this.$options.config.breakpoints;
 
-      var bp = getBreakpointValue(vw, breakpoints);
+      var bp = getCurrentBreakpoint(vw, breakpoints);
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp;
@@ -999,15 +999,18 @@ var Container = {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return getBreakpointValue(this.breakpoint, this.breakpoints, breakpoints);
+      return getBreakpointValue(this.breakpoint, breakpoints, this.reducedAttrs);
     },
-    breakpoints: function breakpoints() {
-      var _$options$config = this.$options.config,
-          breakpoints = _$options$config.breakpoints,
-          columns = _$options$config.columns;
+    reducedAttrs: function reducedAttrs() {
+      var breakpoints = this.$options.config.breakpoints;
+      // xl, md, sm...
 
-      var declaredProps = lodash_pick(this.$attrs, Object.keys(breakpoints));
-      var defaultProps = getDefaultContainerProps(breakpoints, columns);
+      var bpNames = Object.keys(breakpoints);
+      // remove unecessary attrs
+      var declaredProps = lodash_pick(this.$attrs, bpNames);
+      // add default props
+      var defaultProps = getDefaultContainerProps(breakpoints);
+      // return default props overrated by declared dynamic attrs
       return Object.assign.apply(Object, [{}].concat(defaultProps, [declaredProps]));
     }
   },
