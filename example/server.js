@@ -1,7 +1,6 @@
 const path = require('path')
 const exec = require('child_process').exec
 const Express = require('express')
-const watch = require('node-watch')
 
 const app = new Express()
 const port = 3000
