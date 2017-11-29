@@ -33,7 +33,7 @@ exports.default = {
       var vw = window.innerWidth;
       var breakpoints = this.$options.config.breakpoints;
 
-      var bp = (0, _utils.getBreakpointValue)(vw, breakpoints);
+      var bp = (0, _utils.getCurrentBreakpoint)(vw, breakpoints);
 
       if (bp !== this.breakpoint) {
         this.breakpoint = bp;
@@ -45,15 +45,18 @@ exports.default = {
       if (!this.breakpoint) return;
       var breakpoints = this.$options.config.breakpoints;
 
-      return (0, _utils.getBreakpointValue)(this.breakpoint, this.breakpoints, breakpoints);
+      return (0, _utils.getBreakpointValue)(this.breakpoint, breakpoints, this.reducedAttrs);
     },
-    breakpoints: function breakpoints() {
-      var _$options$config = this.$options.config,
-          breakpoints = _$options$config.breakpoints,
-          columns = _$options$config.columns;
+    reducedAttrs: function reducedAttrs() {
+      var breakpoints = this.$options.config.breakpoints;
+      // xl, md, sm...
 
-      var declaredProps = (0, _lodash2.default)(this.$attrs, Object.keys(breakpoints));
-      var defaultProps = (0, _utils.getDefaultContainerProps)(breakpoints, columns);
+      var bpNames = Object.keys(breakpoints);
+      // remove unecessary attrs
+      var declaredProps = (0, _lodash2.default)(this.$attrs, bpNames);
+      // add default props
+      var defaultProps = (0, _utils.getDefaultContainerProps)(breakpoints);
+      // return default props overrated by declared dynamic attrs
       return Object.assign.apply(Object, [{}].concat(defaultProps, [declaredProps]));
     }
   },

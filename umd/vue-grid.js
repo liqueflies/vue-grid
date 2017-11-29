@@ -1,5 +1,5 @@
 
-/*! @liqueflies/vue-grid - v0.0.1
+/*! @liqueflies/vue-grid - v0.0.2
  * https://github.com/liqueflies/vue-grid
  * Copyright (c) 2017 - [object Object];
  * Licensed MIT
