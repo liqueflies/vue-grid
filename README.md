@@ -16,7 +16,7 @@
 ## Example usage
 
 ```js
-import VueGrid from '@liqueflies/vue-grid'
+import { VueGrid } from '@liqueflies/vue-grid'
 
 Vue.use(VueGrid, { /* your configuration */ })
 ```
