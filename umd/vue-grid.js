@@ -1,5 +1,5 @@
 
-/*! @liqueflies/vue-grid - v0.0.3
+/*! @liqueflies/vue-grid - v0.0.4
  * https://github.com/liqueflies/vue-grid
  * Copyright (c) 2017 - [object Object];
  * Licensed MIT
@@ -1172,7 +1172,7 @@ var Hidden = {
   name: 'hidden',
   data: function data() {
     return {
-      viewport: null
+      viewport: window.innerWidth
     };
   },
   props: {
@@ -1221,7 +1221,6 @@ var Hidden = {
     }
   },
   mounted: function mounted() {
-    this.setViewport();
     this.setViewport = lodash_debounce(this.setViewport, 150);
     window.addEventListener('resize', this.setViewport);
   },

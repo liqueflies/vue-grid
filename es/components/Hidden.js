@@ -4,7 +4,7 @@ export default {
   name: 'hidden',
   data: function data() {
     return {
-      viewport: null
+      viewport: window.innerWidth
     };
   },
   props: {
@@ -53,7 +53,6 @@ export default {
     }
   },
   mounted: function mounted() {
-    this.setViewport();
     this.setViewport = debounce(this.setViewport, 150);
     window.addEventListener('resize', this.setViewport);
   },

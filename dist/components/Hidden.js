@@ -12,7 +12,7 @@ exports.default = {
   name: 'hidden',
   data: function data() {
     return {
-      viewport: null
+      viewport: window.innerWidth
     };
   },
   props: {
@@ -61,7 +61,6 @@ exports.default = {
     }
   },
   mounted: function mounted() {
-    this.setViewport();
     this.setViewport = (0, _lodash2.default)(this.setViewport, 150);
     window.addEventListener('resize', this.setViewport);
   },
